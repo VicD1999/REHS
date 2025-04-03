@@ -89,113 +89,6 @@ if __name__ == '__main__':
     # wacc = 0.10  # Weighted average cost of capital
     results = {}
 
-    ####### PREIOUS CODE EFFICIENCY CALCULATION #######
-
-    # for wacc in [0.07]:
-    #     for d in distances:
-    #         round_trip_in_hours = 2 * d / AIRSHIP_VELOCITY_L
-    #         E = P * round_trip_in_hours * CF * charge_efficiency * prop_efficiency
-    #         E_max_per_year = P * 8760
-    #         m = E / MU
-    #         if m > 4400:
-    #             print("Load capacity exceeds airship limit.")
-    #             continue
-
-    #         rtd_efficiency = 1 - 2 * 0.75 * drone_consumption(m_pack) / MU
-    #         rtla_efficiency = 1 - 2 * d * airship_consumption_L(m) / MU
-    #         rtwa_efficiency = 1 - (m / (battery_pack_per_UFWT(P, m) * m_pack) * d_prime / 2) * airship_consumption_H(m) / MU
-
-    #         E_to_grid = E * rtd_efficiency * rtwa_efficiency * rtla_efficiency * charge_efficiency * DC_AC_efficiency
-    #         # /!\ This is not the correct formula
-    #         # loading_time = 4 * r * m
-    #         time_to_cover_wind_farm = battery_pack_per_UFWT(P, m) * d_prime / (2 * AIRSHIP_VELOCITY_H)
-    #         time_to_cover_wind_farm = m / (battery_pack_per_UFWT(P, m) * m_pack) * d_prime / (2 * AIRSHIP_VELOCITY_H)
-    #         cycle_time = round_trip_in_hours + time_to_cover_wind_farm
-    #         num_cycles = 8760 / cycle_time
-    #         E_to_grid_per_year = E_to_grid * num_cycles
-
-    #         load_factor_ecosystem = E_to_grid_per_year / E_max_per_year
-
-    #         price_batteries = BATTERY_PRICE * m * MU
-    #         annuity_batteries = (price_batteries * wacc) / (1 - (1 + wacc) ** -BATTERY_LIFETIME)
-    #         price_airships = AIRSHIP_PRICE * (m / 4400)
-    #         annuity_airships = (price_airships * wacc) / (1 - (1 + wacc) ** -AIRSHIP_LIFETIME)
-    #         num_drones = round(m / (5 * m_pack)) + 1
-    #         # num_drones = m / (5 * m_pack)
-    #         price_drones = DRONE_PRICE * num_drones
-    #         annuity_drones = (price_drones * wacc) / (1 - (1 + wacc) ** -DRONE_LIFETIME)
-    #         price_ufwt = TURBINE_PRICE * P
-    #         annuity_ufwt = (price_ufwt * wacc) / (1 - (1 + wacc) ** -TURBINE_LIFETIME)
-
-    #         total_annuity = 3 * annuity_batteries + annuity_drones + annuity_airships + annuity_ufwt
-    #         price_per_MWh = total_annuity / E_to_grid_per_year
-    #         efficiency = overall_efficiency(d, m, P)
-
-    #         results[f"sc_2_{d}_{wacc}"] = {"distance":d, 
-    #                                 "size_m": m, 
-    #                                 "price_per_MWh": price_per_MWh,
-    #                                 "efficiency": efficiency,
-    #                                 "load_factor_ecosystem": load_factor_ecosystem,
-    #                                 "num_drones": num_drones,
-    #                                 "annuity_drones": annuity_drones,
-    #                                 "annuity_airships": annuity_airships,
-    #                                 "annuity_batteries": annuity_batteries,
-    #                                 "annuity_ufwt": annuity_ufwt,
-    #                                 "total_annuity": total_annuity,
-    #                                 "E_to_grid_per_year": E_to_grid_per_year,
-    #                                 "E_max_per_year": E_max_per_year,
-    #                                 "wacc": wacc
-    #                                 }
-
-    # for key, value in results.items():
-    #     print(key, value)
-
-    # print(f"{E_to_grid_per_year/E_max_per_year}")
-
-    # import json
-    # with open('results/results_sc2.json', 'w') as f:
-    #     json.dump(results, f)
-
-    
-
-    # print(f"\\toprule")
-    # print(f"d [km] & m [ton] & $ \\pi_e $ [\\%] & $c_e $ [\\$/MWh]\\\\")
-    # print(f"\\midrule")
-    # for d in distances:
-    #     m = results[f"sc_2_{d}_{wacc}"]["size_m"]
-    #     efficiency = results[f"sc_2_{d}_{wacc}"]["efficiency"] * 100
-    #     load_factor_ecosystem = results[f"sc_2_{d}_{wacc}"]["load_factor_ecosystem"] * 100
-    #     costs = results[f"sc_2_{d}_{wacc}"]["price_per_MWh"]
-    #     print(f"{d} & {round(m)} & $ {round(load_factor_ecosystem, 1)} $ & {round(costs)} \\\\")
-
-    # print(f"\\bottomrule")
-
-    # for d in distances:
-    #     # print share of costs
-    #     print(f"Distance: {d} km")
-    #     total_annuity = results[f"sc_2_{d}_{wacc}"]["total_annuity"]
-    #     annuity_batteries = results[f"sc_2_{d}_{wacc}"]["annuity_batteries"]
-    #     annuity_airships = results[f"sc_2_{d}_{wacc}"]["annuity_airships"]
-    #     annuity_drones = results[f"sc_2_{d}_{wacc}"]["annuity_drones"]
-    #     annuity_ufwt = results[f"sc_2_{d}_{wacc}"]["annuity_ufwt"]
-
-    #     print(f"Total annuity: {total_annuity}")
-    #     print(f"Share of batteries: {annuity_batteries / total_annuity * 100}")
-    #     print(f"Share of airships: {annuity_airships / total_annuity * 100}")
-    #     print(f"Share of drones: {annuity_drones / total_annuity * 100}")
-    #     print(f"Share of UFWT: {annuity_ufwt / total_annuity * 100}")
-    #     print()
-
-    #     print(f"Distance: {d} km")
-    #     # print total costs 
-    #     print(f"Total annuity: {total_annuity}")
-    #     print(f"Annuitiy of batteries: {annuity_batteries}")
-    #     print(f"Annuitiy of airships: {annuity_airships}")
-    #     print(f"Annuitiy of drones: {annuity_drones}")
-    #     print(f"Annuitiy of UFWT: {annuity_ufwt}")
-    #     print()
-
-
     for wacc in [0.07]:
         for d in distances:        
             round_trip_in_hours = 2 * d / AIRSHIP_VELOCITY_L
@@ -209,21 +102,22 @@ if __name__ == '__main__':
             E_in_batteries = E - L_prop - L_charge
             m = E_in_batteries / MU  # Optimal boat mass (tons)
 
-            if m > 4400:
-                print("Load capacity exceeds airship limit.")
-                continue
+            # if m > 4400:
+            #     print("Load capacity exceeds airship limit.")
+            #     continue
             
             L_rt = 2 * d * airship_consumption_L(m) * m
             L_rtwa = n_ufwt * d_prime * airship_consumption_H(m) * m
             L_rtd = 2 * AIRSHIP_ALTITUDE * drone_consumption(m_pack) * m
 
-            print(f"{L_rtd = }")
+            # print(f"CONSOMMATION")
+            # print(f"{L_rtd = }, {L_rtdr = }")
 
-            from CONSTANTES import g, Joule_to_MWh, elec_efficiency
-            h = 3000 # Airship altitude (m)
-            L_crane = ((m * g * h / 1000) * Joule_to_MWh) / elec_efficiency
 
-            print(f"{L_crane = } VS {L_rtd = }")  
+            # from CONSTANTES import g, Joule_to_MWh, elec_efficiency
+            # h = 9000 # Airship altitude (m)
+            # L_crane = ((m * g * h / 1000) * Joule_to_MWh) / elec_efficiency
+            # print(f"{L_crane = } VS {L_rtd = }")  
 
             
             
@@ -248,13 +142,18 @@ if __name__ == '__main__':
             L_discard = P * time_to_cover_wind_farm * CF
             # print(f"{L_discard = }")
 
+            n_batteries = m / m_pack
+            n_batteries_per_UFWT = n_batteries / n_ufwt
+            print(f"HEEEELLLLLLO")
+            print(f"{d = }, {n_batteries = }, {n_batteries_per_UFWT = }")
+
             load_factor_ecosystem = E_to_grid_per_year / E_max_per_year
 
             price_batteries = BATTERY_PRICE * m * MU
             annuity_batteries = (price_batteries * wacc) / (1 - (1 + wacc) ** -BATTERY_LIFETIME)
             price_airships = AIRSHIP_PRICE * (m / 4400)
             annuity_airships = (price_airships * wacc) / (1 - (1 + wacc) ** -AIRSHIP_LIFETIME)
-            num_drones = round(m / (5 * m_pack)) + 1
+            num_drones = round(n_batteries_per_UFWT) if round(n_batteries_per_UFWT) > 1 else 1
             # num_drones = m / (5 * m_pack) 
             price_drones = DRONE_PRICE * num_drones
             annuity_drones = (price_drones * wacc) / (1 - (1 + wacc) ** -DRONE_LIFETIME)
@@ -314,10 +213,6 @@ if __name__ == '__main__':
                                     "num_cycles": num_cycles
                                     }
 
-    # for key, value in results.items():
-    #     print(key, value)
-
-    # print(f"{E_to_grid_per_year/E_max_per_year}")
 
     import json
     with open('results/results_sc2.json', 'w') as f:
@@ -371,7 +266,7 @@ if __name__ == '__main__':
 
     # Print Energy and Losses per cycle table
     print(f"\\toprule")
-    print("d [km] & $E_{cycle}$ & $L_{+}$ & $L_{prop}$ & $L_{charge}$ & $L_{rt}$ & $L_{rtwa}$ & $L_{rtd}$ & $L_{-}$ & $L_{DC-AC}$ & $E_{grid}$ \\\\")
+    print("d [km] & $E_{cycle}$ & $L_{+}$ & $L_{prop}$ & $L_{charge}$ & $L_{rtd}$ & $L_{rt}$ & $L_{rtwa}$ & $L_{-}$ & $L_{DC-AC}$ & $E_{grid}$ \\\\")
     print(f"\\midrule")
     for d in distances:
         E_cycle = results[f"sc_2_{d}_{wacc}"]["E_cycle"]
@@ -384,44 +279,8 @@ if __name__ == '__main__':
         L_discharge = results[f"sc_2_{d}_{wacc}"]["L_discharge"]
         L_DC_AC = results[f"sc_2_{d}_{wacc}"]["L_DC_AC"]
         E_to_grid = results[f"sc_2_{d}_{wacc}"]["E_to_grid"]
-        print(f"{d} & {round(E_cycle, 1)} & {round(L_discard, 1)} & {round(L_prop, 1)} & {round(L_charge, 1)} & {round(L_rt, 1)} & {round(L_rtwa, 1)} & {round(L_rtd, 1)} & {round(L_discharge, 1)} & {round(L_DC_AC, 1)} & {round(E_to_grid, 1)} \\\\")
+        print(f"{d} & {round(E_cycle, 1)} & {round(L_discard, 1)} & {round(L_prop, 1)} & {round(L_charge, 1)} & {round(L_rtd, 1)} & {round(L_rt, 1)} & {round(L_rtwa, 1)} & {round(L_discharge, 1)} & {round(L_DC_AC, 1)} & {round(E_to_grid, 1)} \\\\")
         # Print percentage of E_cycle
         # print(f"{d} & {round(E_cycle/E_cycle, 1)} & {round(L_discard/E_cycle, 1)} & {round(L_prop/E_cycle, 1)} & {round(L_charge/E_cycle, 1)} & {round(L_rt/E_cycle, 1)} & {round(L_rtwa/E_cycle, 1)} & {round(L_rtd/E_cycle, 1)} & {round(L_discharge/E_cycle, 1)} & {round(L_DC_AC/E_cycle, 1)} & {round(E_to_grid/E_cycle)} \\\\")
     print(f"\\bottomrule")
-
-
-            # E = P * round_trip_in_hours * CF # Total energy (MWh)
-            # E_max_per_year = P * 8760  # Maximum energy per year (MWh)
-
-            # L_prop = E * prop_efficiency
-            # L_charge = E * prop_efficiency * (1-charge_efficiency)
-            # E_in_batteries = E - L_prop - L_charge
-            # m = E_in_batteries / MU  # Optimal boat mass (tons)
-
-            
-            # L_crane = (m * g * h / 1000) * Joule_to_MWh
-            # L_rt = 2 * d * boat_consumption(m) * m
-            
-            # L_discharge = (1-charge_efficiency) * E_in_batteries
-            # L_DC_AC = (1-DC_AC_efficiency) * (E_in_batteries - L_discharge - L_rt - L_crane)
-
-            # E_to_grid = E_in_batteries - L_crane - L_rt - L_crane - L_discharge - L_DC_AC
-            # t_cycle = round_trip_in_hours + loading_time(m)
-            # num_cycles = 8760 / t_cycle # (round_trip_time(d) + loading_time(m) + time_to_pass_by_each_UFWT(d, P, m))  # Number of cycles per year
-            # E_to_grid_per_year = E_to_grid * num_cycles  # Total energy delivered per year (MWh)
-
-            # # Cost calculations
-            # price_batteries = BATTERY_PRICE * m * MU  # Battery CAPEX ($)
-            # annuity_batteries = (price_batteries * wacc) / (1 - (1 + wacc) ** -BATTERY_LIFETIME)  # $/year
-
-            # price_boats = boat_CAPEX(m)  # Boat CAPEX ($)
-            # annuity_boats = (price_boats * wacc) / (1 - (1 + wacc) ** -BOAT_LIFETIME)  # $/year
-
-            # price_ufwt = TURBINE_PRICE * P  # Wind farm CAPEX ($)
-            # annuity_ufwt = (price_ufwt * wacc) / (1 - (1 + wacc) ** -TURBINE_LIFETIME)  # $/year
-
-            # total_annuity = 3 * annuity_batteries + annuity_boats + annuity_ufwt  # Total cost ($/year)
-            # price_per_MWh = total_annuity / E_to_grid_per_year  # Cost per MWh ($/MWh)
-
-            # load_factor_ecosystem = E_to_grid_per_year / E_max_per_year
 

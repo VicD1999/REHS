@@ -8,8 +8,10 @@ prop_efficiency = 0.5
 charge_efficiency = 0.959
 r = 2.3896e-4 # h/t
 g = 9.81 # m/s^2
+h = 30 # m
 AIR_DENSITY = 1.225 # kg/m^3
 HE_DENSITY = 0.1784 #kg/m^3
+Joule_to_MWh = 2.77778e-10 # MWh/J
 
 
 """ Velocity """
@@ -28,8 +30,9 @@ DRONE_LIFETIME = 20 #yr
 
 
 """ UFWT data"""
-CF = 0.65
-TURBINE_PRICE = 2.5e6 # $/MW
+CF = 0.50
+# CF = 0.55
+TURBINE_PRICE = 2.53e6 # $/MW
 d_prime = 0.8 # km distance between 2 UFWT's
 UFWT_INSTALLED_POWER = 10 #MW
 
@@ -37,9 +40,19 @@ UFWT_INSTALLED_POWER = 10 #MW
 """ Battery pack data """
 m_cells = 28 # ton
 m_pack = 30 #ton
-MU = 0.467 # MWh/t_pack
-BATTERY_PRICE = 71500 # $/MWh (pack)
+MU_cell = 0.3161 # 0.209 # MWh / ton ENS DK
+MU = MU_cell * (m_cells/m_pack) # 0.195 # MWh/t_pack We assume that only 28 tons are for the cells
+print(f"{MU = }")
 
+print(f"MWh per battery pack {m_pack * MU = }")
+# BATTERY_PRICE = (104_000 * m_cells * MU_cell + 7000) / (m_cells * MU_cell) # $ / MWh (pack)
+# # https://www.bloomberg.com/news/newsletters/2024-07-09/china-s-batteries-are-now-cheap-enough-to-power-huge-shifts
+BATTERY_PRICE = (53_400 * m_cells * MU_cell + 7000) / (m_cells * MU_cell) # $ / MWh (pack)
+print(f"{BATTERY_PRICE = }")
+print(f"Full cost battery pack : {(53_400 * m_cells * MU_cell + 7000) = }")
+
+
+# # https://www.sciencedirect.com/science/article/pii/S2352152X23031985
 
 """ Drone & airship data """
 DRONE_MASS = 10 # tons
@@ -50,6 +63,7 @@ n_propeller = 3
 A_propeller = 20 # m^2
 AIRSHIP_LENGTH = 600 # m
 AIRSHIP_PRICE = 600e6 # $/ (4400 tons)
+AIRSHIP_ALTITUDE = 2 # 0.75 # km
 
 
 
