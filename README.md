@@ -6,7 +6,7 @@ REHS (Remote Renewable Energy Hub in the High Seas) is a repository to reproduce
 
 Clone the repository:
 
-    git clone https://github.com/VicDac1999/REHS.git
+    git clone https://github.com/VicD1999/REHS.git
     cd REHS
 
 ## Usage
