@@ -21,4 +21,5 @@ This command will execute the main script, which performs the simulation and out
 ## Files
 
 main.py: The main script to run the simulation. It calculates energy production, costs, and efficiencies based on the input parameters.
+
 constantes.py: Contains all the constant values and configuration data used in the simulation.
