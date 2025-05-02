@@ -1,6 +1,6 @@
 # REHS
 
-REHS (Remote Renewable Energy Hub in the High Seas) is a repository to reproduce the results 
+REHS (Remote Renewable Energy Hub in the High Seas) is a repository to reproduce the results presented in this paper: https://hdl.handle.net/2268/327232 
 
 ## Installation
 
